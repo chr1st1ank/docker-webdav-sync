@@ -79,6 +79,9 @@ Ansible:
 ```
 
 ## Changelog
+13-11-2019
+- v1.01
+  · Fix include files when use EXTENSION env. variable
 ```
 13-11-2019
 - Initial Release
