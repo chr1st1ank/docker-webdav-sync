@@ -31,10 +31,12 @@ if [ -z "$EXTENSION" ]; then
 echo "  · No extension file applied "
 echo "  · Synchronize all files in folders"
 sed -i 's,'"EXT"','"*"',' $SYNC_FILE
+sed -i 's,'"INCLUDE"','""',' $SYNC_FILE
 else
 echo "  · Extension file applied "
 echo "  · Synchronze only .$EXTENSION files"
 sed -i 's,'"EXT"','"*.$EXTENSION"',' $SYNC_FILE
+sed -i 's,'"INCLUDE"','"--include=*.$EXTENSION"',' $SYNC_FILE
 fi
 echo "    Done..."
 
