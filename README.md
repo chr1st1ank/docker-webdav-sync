@@ -1,6 +1,4 @@
-![Docker-JDownloader](https://raw.githubusercontent.com/MephistoXoL/Docker-WebDav_Sync/master/WebDav_Sync.png)
-
-# Docker-WebDav_Sync
+# docker-WebDav-sync
 Multi Arch to Sync 2 WebDav Folders Bidirectionaly
 
 ## Environment Variables
@@ -15,6 +13,7 @@ You can add ```EXTENSION``` env. variable to sync only one type of files.
 | LOCAL_USER| webdav local user |
 | LOCAL_PASSWORD| webdav local user |
 | EXTENSION**| file extension |
+| SYNC_MODE | Limit the sync direction: upload, download, both |
 
 ** Extension Files can be set by this variable, leave empty for all files
 
@@ -33,60 +32,25 @@ Command line:
 ```
 
 Docker Compose:
-```
-version: '3.2'
+```docker-compose
+version: '2.4'
 services:
-  app:
-    container_name: Sync_WebDav
-    image: mephistoxol/webdav_sync
+  webdav-sync:
+    container_name: webdav-sync
+    build:
+      context: https://github.com/chr1st1ank/docker-webdav-sync.git
+    image: docker-webdav-sync
     restart: unless-stopped
-    env:
+    environment:
       - REMOTE_WEBDAV="Your Remote WebDav Folder"
-      - LOCAL_WEBDAV="Your Local WebDav Folder"
       - REMOTE_USER="webdav remote user"
       - REMOTE_PASSWORD="webdav remote password" 
-      - LOCAL_USER="webdav local user"
-      - LOCAL_PASSWORD="webdav local user"
-      - EXTENSION="file extension"
-    # Traefik v1.7 optional
-    labels:
-      - traefik.enable: "False"   
-    networks:      
-      - internal-network
-
+      # - LOCAL_WEBDAV="Your Local WebDav Folder"
+      # - LOCAL_USER="webdav local user"
+      # - LOCAL_PASSWORD="webdav local user"
+      # - EXTENSION="file extension"
+      - SYNC_MODE="upload" 
+    volumes:
+      # Mount a local folder
+      - /opt/data:/local
 ```
-
-Ansible:
-```
-      docker_container:
-        name: Sync_WebDav
-        image: mephistoxol/webdav_sync
-        env:
-          REMOTE_WEBDAV="Your Remote WebDav Folder"
-          LOCAL_WEBDAV="Your Local WebDav Folder"
-          REMOTE_USER="webdav remote user"
-          REMOTE_PASSWORD="webdav remote password" 
-          LOCAL_USER="webdav local user"
-          LOCAL_PASSWORD="webdav local user"
-          EXTENSION="file extension"
-        restart_policy: unless-stopped
-        # Traefik v1.7 optional
-        labels:
-          ttraefik.enable: "False" 
-        networks:
-          - name: internal-network
-      register: result
-```
-
-## Changelog
-13-11-2019
-- v1.01
-  · Fix include files when use EXTENSION env. variable
-```
-13-11-2019
-- Initial Release
-```
-
-## Donate
-[![Paypal](https://raw.githubusercontent.com/MephistoXoL/Things/master/paypal.png)](https://www.paypal.me/mephistoxol)
-
