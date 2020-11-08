@@ -11,7 +11,7 @@ echo $LOCAL_WEBDAV $LOCAL_USER $LOCAL_PASSWORD >> /etc/davfs2/secrets
 echo "Check mountpoints... "
 if [ "$(grep /remote /proc/mounts)" ]; then
     echo "Already Mounted"
-elif [ -nz "$REMOTE_WEBDAV" ]; then
+elif [ -n "$REMOTE_WEBDAV" ]; then
     echo " -  Mounting /remote "
     mount -t davfs $REMOTE_WEBDAV /remote
     echo "    Done..."
@@ -19,7 +19,7 @@ fi
 
 if [ "$(grep /local /proc/mounts)" ]; then
     echo "Already Mounted"
-elif [ -nz "$LOCAL_WEBDAV" ]; then
+elif [ -n "$LOCAL_WEBDAV" ]; then
     echo " -  Mounting /local "
     mount -t davfs $LOCAL_WEBDAV /local
     echo "    Done..."
