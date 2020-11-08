@@ -49,7 +49,7 @@ echo "Initial sync..."
 $SYNC_FILE
 echo "Ready. Watching file changes..."
 while [ true ]; do
-    inotifywait -e modify -e move -e create -e delete /local /remote && $SYNC_FILE
+    inotifywait --recursive -e modify -e move -e create -e delete /local /remote && $SYNC_FILE
     sleep 3s
 done
 
