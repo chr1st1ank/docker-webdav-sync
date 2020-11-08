@@ -1,7 +1,7 @@
 FROM alpine
 
 ## INSTALL PACKAGES
-RUN apk add --update --no-cache bash rsync davfs2
+RUN apk add --update --no-cache bash rsync davfs2 inotify-tools
 
 ## CREATING STRUCTURE
 RUN mkdir /local /remote && \

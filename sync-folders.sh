@@ -1,14 +1,16 @@
 #!/bin/sh
-if [ $SYNC_MODE -ne "download" ]; then
-    if [ "$(ls /local/EXT 2>/dev/null)" ]; then
+if [[ "$SYNC_MODE" == "mirror" ]]; then
+    if [ "$(ls /local/*EXT 2>/dev/null)" ]; then
     echo "#### Files ready to sync ####"
-    echo $(rsync -ravu --exclude={".*","lost+found"} INCLUDE --ignore-existing "/local/" "/remote/")
+    rsync -ravu --exclude={".*","lost+found"} INCLUDE --ignore-existing --delete "/local/" "/remote/" 2>1
     fi
-fi
-
-if [ $SYNC_MODE -ne "upload" ]; then
-    if [ "$(ls /remote/EXT 2>/dev/null)" ]; then
+else
+    if [ "$(ls /local/*EXT 2>/dev/null)" ]; then
     echo "#### Files ready to sync ####"
-    echo $(rsync -ravu --exclude={".*","lost+found"} INCLUDE --ignore-existing "/remote/" "/local/")
+    rsync -ravu --exclude={".*","lost+found"} INCLUDE --ignore-existing "/local/" "/remote/" 2>1
+    fi
+    if [ "$(ls /remote/*EXT 2>/dev/null)" ]; then
+    echo "#### Files ready to sync ####"
+    rsync -ravu --exclude={".*","lost+found"} INCLUDE --ignore-existing "/remote/" "/local/" 2>1
     fi
 fi

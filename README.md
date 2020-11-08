@@ -13,9 +13,13 @@ You can add ```EXTENSION``` env. variable to sync only one type of files.
 | LOCAL_USER| webdav local user |
 | LOCAL_PASSWORD| webdav local user |
 | EXTENSION**| file extension |
-| SYNC_MODE | Limit the sync direction: upload, download, both |
+| SYNC_MODE | Limit the sync direction: "mirror" or "two-way-sync"|
 
 ** Extension Files can be set by this variable, leave empty for all files
+
+Sync modes:
+- mirror: Keeps the remote as exact copy of the local folder. Locally deleted files are also deleted on the remote. Remote changes are overwritten
+- two-way-syn: Missing files in both folders are copied to the other folders. Note: Deletions in only one folder are undone by the synchronization.
 
 ## Install
 Command line:
@@ -49,8 +53,8 @@ services:
       # - LOCAL_USER="webdav local user"
       # - LOCAL_PASSWORD="webdav local user"
       # - EXTENSION="file extension"
-      - SYNC_MODE="upload" 
+      - SYNC_MODE="mirror" 
     volumes:
       # Mount a local folder
-      - /opt/data:/local
+      - /opt/data:/local:ro
 ```
