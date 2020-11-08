@@ -45,9 +45,10 @@ if [[ -z "$SYNC_MODE" ]]; then
     export SYNC_MODE=two-way-sync
 fi
 echo "Sync mode: $SYNC_MODE"
+echo "Initial sync..."
+$SYNC_FILE
 echo "Ready. Watching file changes..."
 while [ true ]; do
-    touch /last-loop.info
     inotifywait -e modify -e move -e create -e delete /local /remote && $SYNC_FILE
     sleep 3s
 done
